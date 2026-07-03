@@ -430,3 +430,25 @@ body {
     transform: translateY(0);
   }
 }
+
+/* Confetti / Party Mode Styles */
+.confetti {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 2px;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) translateX(var(--drift)) rotate(var(--rotation));
+    opacity: 0;
+  }
+}
