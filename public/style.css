@@ -329,103 +329,35 @@ body {
   font-weight: 400;
 }
 
-/* Interactive Beach & Seagull Section */
-.beach-interactive-container {
-  position: relative;
-  width: 100%;
-  height: 160px;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-top: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  background: #020617;
-}
-
-.beach-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.85;
-}
-
-/* Seagull & Poop Animation Area */
-.seagull-sky {
-  position: absolute;
+/* Starry Sky Background Animation */
+.starry-sky {
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
-  z-index: 100;
+  z-index: 2;
+  overflow: hidden;
 }
 
-.seagull {
+.star {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  transform: scaleX(1); /* fly right */
-  animation: seagull-wings 0.4s infinite alternate ease-in-out;
-}
-
-@keyframes seagull-wings {
-  0% { transform: scaleY(0.7) translateY(0); }
-  100% { transform: scaleY(1.1) translateY(-2px); }
-}
-
-/* Falling Poop Droplet */
-.poop-drop {
-  position: absolute;
-  width: 4px;
-  height: 10px;
-  background-color: #f1f5f9;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
-  z-index: 110;
-}
-
-/* Poop Splat on screen */
-.poop-splat {
-  position: absolute;
-  background-color: rgba(248, 250, 252, 0.95);
+  background-color: #ffffff;
   border-radius: 50%;
-  z-index: 120;
-  animation: splat-pop 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  box-shadow: inset -2px -2px 5px rgba(0, 0, 0, 0.15), 
-              0 2px 4px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  animation: pulse-star 3s infinite ease-in-out;
 }
 
-.poop-splat::before,
-.poop-splat::after {
-  content: '';
-  position: absolute;
-  background-color: rgba(248, 250, 252, 0.95);
-  border-radius: 50%;
-}
-
-.poop-splat::before {
-  width: 40%;
-  height: 40%;
-  top: -20%;
-  left: 30%;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.poop-splat::after {
-  width: 30%;
-  height: 30%;
-  bottom: 10%;
-  right: -20%;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-@keyframes splat-pop {
-  0% {
-    transform: translate(-50%, -50%) scale(0.1) rotate(0deg);
-    opacity: 0.5;
+@keyframes pulse-star {
+  0%, 100% { 
+    opacity: 0.15; 
+    transform: scale(0.8); 
   }
-  100% {
-    transform: translate(-50%, -50%) scale(1) rotate(var(--rot, 0deg));
-    opacity: 1;
+  50% { 
+    opacity: 0.9; 
+    transform: scale(1.2); 
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
   }
 }
 

@@ -8,23 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=1.0.2">
-  <style>
-    /* Critical inline layout fixes to bypass any CSS cache issues */
-    .flex-col {
-      flex-direction: column !important;
-    }
-    .flex-row {
-      display: flex;
-      gap: 16px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css?v=1.0.3">
 </head>
 <body>
   <!-- Ambient background blobs -->
   <div class="glow-blob blob-1"></div>
   <div class="glow-blob blob-2"></div>
   <div class="glow-blob blob-3"></div>
+  <div class="starry-sky" id="starry-sky"></div>
 
   <!-- Main Mobile Container -->
   <div class="mobile-frame">
@@ -77,23 +68,11 @@
       </div>
 
       <!-- Card: Miguel Ángel & Daniel -->
-      <div class="msg-card card-mad flex-col">
-        <div class="flex-row">
-          <div class="card-avatar mad-avatar">M&D</div>
-          <div class="card-content">
-            <h3 class="card-name">Miguel Ángel y Daniel</h3>
-            <p class="card-text">
-              Miguel Ángel, Daniel, dejad ya de picar código que vais a quemar las teclas. 🚀 Apagad la pantalla, salid a la calle y aprovechad el buen tiempo, que ya habrá tiempo de hacer más el lunes. ¡A descansar!
-            </p>
-          </div>
-        </div>
-        
-        <!-- Interactive Seagull Sky Section (No image) -->
-        <div class="beach-interactive-container" style="height: 100px; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.05);">
-          <!-- Seagull Flying Path Container -->
-          <div class="seagull-sky" id="sky-area">
-            <!-- Seagulls will fly across here -->
-          </div>
+      <div class="msg-card card-mad">
+        <div class="card-avatar mad-avatar">M&D</div>
+        <div class="card-content">
+          <h3 class="card-name">Miguel Ángel y Daniel</h3>
+          <p class="card-text">Chicos, vais bien dejar el trabajo y descansar.</p>
         </div>
       </div>
 
@@ -132,120 +111,34 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Seagull & Poop Animation Logic
-    const skyArea = document.getElementById('sky-area');
-    
-    function spawnSeagull() {
-      // Create seagull element
-      const seagull = document.createElement('div');
-      seagull.className = 'seagull';
+    // Generate Starry Sky Animation
+    const starrySky = document.getElementById('starry-sky');
+    const numStars = 60;
+    for (let i = 0; i < numStars; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
       
-      // Seagull SVG
-      seagull.innerHTML = `
-        <svg viewBox="0 0 100 100" width="30" height="30">
-          <path d="M 10 50 Q 30 20 50 50 Q 70 20 90 50 Q 70 35 50 50 Q 30 35 10 50 Z" fill="#ffffff" />
-        </svg>
-      `;
-
-      // Random starting top position within the sky area
-      const randomTop = Math.random() * 60 + 10; // 10% to 70% height
-      seagull.style.top = `${randomTop}%`;
-      seagull.style.left = `-40px`;
+      // Random position
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.top = `${Math.random() * 100}vh`;
       
-      skyArea.appendChild(seagull);
-
-      // Animate seagull flight across the screen
-      let positionX = -40;
-      const speed = Math.random() * 1.5 + 1.2; // random speeds
-      const skyWidth = skyArea.clientWidth;
+      // Random size (0.5px to 2.5px)
+      const size = Math.random() * 2 + 0.5;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
       
-      // Determine a random point along the journey where the seagull will poop (typically middle of screen)
-      const poopTriggerPoint = Math.random() * (skyWidth * 0.5) + (skyWidth * 0.25);
-      let hasPooped = false;
-
-      function flightFrame() {
-        positionX += speed;
-        seagull.style.left = `${positionX}px`;
-
-        // Check if we hit the poop point
-        if (!hasPooped && positionX >= poopTriggerPoint) {
-          hasPooped = true;
-          dropPoop(positionX + 15, seagull.offsetTop + 15);
-        }
-
-        if (positionX < skyWidth + 40) {
-          requestAnimationFrame(flightFrame);
-        } else {
-          seagull.remove();
-        }
-      }
+      // Random animation duration and delay
+      const duration = Math.random() * 3 + 2; // 2s to 5s
+      const delay = Math.random() * 4; // 0s to 4s
+      star.style.animationDuration = `${duration}s`;
+      star.style.animationDelay = `${delay}s`;
       
-      requestAnimationFrame(flightFrame);
+      // Colors: white, light blue, soft yellow
+      const colors = ['#ffffff', '#ffffff', '#e0f2fe', '#fef3c7'];
+      star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      
+      starrySky.appendChild(star);
     }
-
-    function dropPoop(startX, startY) {
-      const poop = document.createElement('div');
-      poop.className = 'poop-drop';
-      poop.style.left = `${startX}px`;
-      poop.style.top = `${startY}px`;
-      skyArea.appendChild(poop);
-
-      // Animate drop down towards the bottom of the container
-      const targetY = skyArea.clientHeight - (Math.random() * 20 + 10); // Splats near the bottom edge
-      let currentY = startY;
-      const dropSpeed = 4;
-
-      function dropFrame() {
-        currentY += dropSpeed;
-        poop.style.top = `${currentY}px`;
-
-        if (currentY < targetY) {
-          requestAnimationFrame(dropFrame);
-        } else {
-          // Poop hits the card! Create splat
-          createSplat(poop.offsetLeft, currentY);
-          poop.remove();
-        }
-      }
-      requestAnimationFrame(dropFrame);
-    }
-
-    function createSplat(x, y) {
-      const splat = document.createElement('div');
-      splat.className = 'poop-splat';
-      splat.style.left = `${x}px`;
-      splat.style.top = `${y}px`;
-
-      // Random splat sizes for realistic look
-      const randomSize = Math.random() * 14 + 10; // 10px to 24px
-      splat.style.width = `${randomSize}px`;
-      splat.style.height = `${randomSize}px`;
-
-      // Random rotation
-      splat.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
-
-      skyArea.appendChild(splat);
-
-      // Gradually fade out and remove splat after 8 seconds
-      setTimeout(() => {
-        splat.style.opacity = '0';
-        splat.style.transition = 'opacity 2s ease-out';
-        setTimeout(() => splat.remove(), 2000);
-      }, 6000);
-    }
-
-    // Trigger seagull spawning every 8 to 15 seconds
-    function scheduleNextSeagull() {
-      const delay = Math.random() * 7000 + 8000; // 8s to 15s
-      setTimeout(() => {
-        spawnSeagull();
-        scheduleNextSeagull();
-      }, delay);
-    }
-
-    // Initial spawn soon after loading
-    setTimeout(spawnSeagull, 3000);
-    scheduleNextSeagull();
 
   </script>
 </body>
