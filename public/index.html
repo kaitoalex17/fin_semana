@@ -16,6 +16,7 @@
   <div class="glow-blob blob-2"></div>
   <div class="glow-blob blob-3"></div>
   <div class="starry-sky" id="starry-sky"></div>
+  <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999;"></canvas>
 
   <!-- Main Mobile Container -->
   <div class="mobile-frame">
@@ -154,44 +155,95 @@
       starrySky.appendChild(star);
     }
 
-    // Confetti / Party Mode Event Trigger
+    // Canvas Confetti System
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationFrameId = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class ConfettiParticle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = -20 - Math.random() * 100;
+        this.size = Math.random() * 8 + 6;
+        this.width = this.size;
+        this.height = this.size * (Math.random() > 0.5 ? 1.5 : 1);
+        
+        const colors = ['#f43f5e', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#ffeb3b', '#00bcd4'];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        
+        this.speedX = (Math.random() - 0.5) * 4;
+        this.speedY = Math.random() * 4 + 3;
+        this.gravity = Math.random() * 0.15 + 0.1;
+        
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.1;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.speedY += this.gravity;
+        this.rotation += this.rotationSpeed;
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+        ctx.restore();
+      }
+    }
+
     const promoVideo = document.getElementById('promo-video');
     promoVideo.addEventListener('play', () => {
       triggerConfetti();
     });
 
     function triggerConfetti() {
-      const colors = ['#f43f5e', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
-      const container = document.body;
-      const numConfetti = 120;
-      
-      for (let i = 0; i < numConfetti; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        
-        // Random style setup
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.left = `${Math.random() * 100}vw`;
-        confetti.style.top = `-20px`;
-        
-        const size = Math.random() * 8 + 6;
-        confetti.style.width = `${size}px`;
-        confetti.style.height = `${size * (Math.random() > 0.5 ? 1.5 : 1)}px`;
-        
-        const drift = (Math.random() - 0.5) * 200;
-        confetti.style.setProperty('--drift', `${drift}px`);
-        confetti.style.setProperty('--rotation', `${Math.random() * 720 - 360}deg`);
-        
-        const duration = Math.random() * 3 + 2; // 2s to 5s
-        confetti.style.animation = `confetti-fall ${duration}s linear forwards`;
-        
-        container.appendChild(confetti);
-        
-        // Cleanup after fall
-        setTimeout(() => {
-          confetti.remove();
-        }, duration * 1000);
+      // Clear any running animation loop
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        particles = [];
       }
+      
+      resizeCanvas();
+      
+      // Spawn 150 canvas particles
+      for (let i = 0; i < 150; i++) {
+        particles.push(new ConfettiParticle());
+      }
+      
+      function updateAndDraw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        let active = false;
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+          if (p.y < canvas.height + 20) {
+            active = true;
+          }
+        });
+        
+        if (active) {
+          animationFrameId = requestAnimationFrame(updateAndDraw);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          animationFrameId = null;
+        }
+      }
+      
+      updateAndDraw();
     }
 
   </script>
