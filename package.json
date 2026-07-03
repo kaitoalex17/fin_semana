@@ -1,0 +1,15 @@
+{
+  "name": "fin_semana",
+  "version": "1.0.0",
+  "description": "Outside Working Hours / Weekend Status Page",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

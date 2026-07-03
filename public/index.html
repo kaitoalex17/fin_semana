@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servidor Fuera de Servicio - Fin de Semana</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient background blobs -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+  <div class="glow-blob blob-3"></div>
+
+  <!-- Main Mobile Container -->
+  <div class="mobile-frame">
+    <!-- Header Area -->
+    <header class="header">
+      <div class="status-badge">
+        <span class="pulse-dot"></span>
+        <span>FUERA DE HORARIO LABORAL</span>
+      </div>
+      <h1 class="main-title">Servidor en Mantenimiento</h1>
+      <p class="subtitle">Actualmente el servidor no está disponible porque está en mantenimiento o fuera de servicio.</p>
+    </header>
+
+    <!-- Interactive Time Section -->
+    <div class="time-widget">
+      <div class="time-label">Modo Descanso Activo</div>
+      <div class="time-display" id="live-time">00:00:00</div>
+      <div class="date-display" id="live-date">viernes, 3 de julio</div>
+    </div>
+
+    <!-- Messages Section -->
+    <main class="messages-container">
+      <h2 class="section-title">Mensajes Importantes</h2>
+
+      <!-- Card: Juan Carlos -->
+      <div class="msg-card card-jc">
+        <div class="card-avatar jc-avatar">JC</div>
+        <div class="card-content">
+          <h3 class="card-name">Juan Carlos</h3>
+          <p class="card-text">Deja de pensar tanto en trabajo. Aprovecha tu tiempo libre para estar con la niña y con tu mujer.</p>
+        </div>
+      </div>
+
+      <!-- Card: Samuel -->
+      <div class="msg-card card-sam">
+        <div class="card-avatar sam-avatar">S</div>
+        <div class="card-content">
+          <h3 class="card-name">Samuel</h3>
+          <p class="card-text">Aprovecha el verano y sal más. Deja de pensar en el trabajo.</p>
+        </div>
+      </div>
+
+      <!-- Card: Pepe -->
+      <div class="msg-card card-pepe">
+        <div class="card-avatar pepe-avatar">P</div>
+        <div class="card-content">
+          <h3 class="card-name">Pepe</h3>
+          <p class="card-text">Hay que descansar, no pensar en el trabajo.</p>
+        </div>
+      </div>
+
+      <!-- Card: Miguel Ángel & Daniel -->
+      <div class="msg-card card-mad">
+        <div class="card-avatar mad-avatar">M&D</div>
+        <div class="card-content">
+          <h3 class="card-name">Miguel Ángel y Daniel</h3>
+          <p class="card-text">Vais muy bien, dejad el trabajo y aprovechad el buen tiempo. Ya tendréis tiempo de hacer más.</p>
+        </div>
+      </div>
+
+      <!-- Footer Message Card -->
+      <div class="msg-card footer-card">
+        <div class="footer-emoji">☀️🏖️🍹</div>
+        <p class="footer-msg-text">¡A disfrutar del verano chicos! :-)</p>
+      </div>
+    </main>
+
+    <!-- Bottom Footer Brand -->
+    <footer class="brand-footer">
+      <div class="brand-line"></div>
+      <p class="brand-text">Desconectado • Fin de Semana</p>
+    </footer>
+  </div>
+
+  <script>
+    // Live Clock & Date Update
+    function updateClock() {
+      const now = new Date();
+      
+      // Time format
+      const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+      document.getElementById('live-time').textContent = now.toLocaleTimeString('es-ES', optionsTime);
+      
+      // Date format
+      const optionsDate = { weekday: 'long', day: 'numeric', month: 'long' };
+      let dateString = now.toLocaleDateString('es-ES', optionsDate);
+      // Capitalize first letter
+      dateString = dateString.charAt(0).toUpperCase() + dateString.slice(1);
+      document.getElementById('live-date').textContent = dateString;
+    }
+    
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
