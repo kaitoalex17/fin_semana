@@ -83,16 +83,13 @@
           <div class="card-content">
             <h3 class="card-name">Miguel Ángel y Daniel</h3>
             <p class="card-text">
-              <strong>¡Vais como un cohete, equipo! 🚀</strong><br>
-              Pero ahora toca levantar el pie del acelerador. Dejad a un lado las líneas de código, cerrad el terminal y salid a exprimir el verano y el buen tiempo. ¡Ya tendréis tiempo de conquistar el mundo el lunes!
+              Miguel Ángel, Daniel, dejad ya de picar código que vais a quemar las teclas. 🚀 Apagad la pantalla, salid a la calle y aprovechad el buen tiempo, que ya habrá tiempo de hacer más el lunes. ¡A descansar!
             </p>
           </div>
         </div>
         
-        <!-- Interactive Beach & Seagull Section -->
-        <div class="beach-interactive-container">
-          <img src="images/dark_beach.png" alt="Silla de playa y mar" class="beach-img">
-          
+        <!-- Interactive Seagull Sky Section (No image) -->
+        <div class="beach-interactive-container" style="height: 100px; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.05);">
           <!-- Seagull Flying Path Container -->
           <div class="seagull-sky" id="sky-area">
             <!-- Seagulls will fly across here -->
@@ -193,8 +190,8 @@
       poop.style.top = `${startY}px`;
       skyArea.appendChild(poop);
 
-      // Animate drop down towards the "screen screen" (which falls out of the image onto the card or container)
-      const targetY = skyArea.clientHeight + (Math.random() * 80 + 40); // Falls down onto the card text / image area
+      // Animate drop down towards the bottom of the container
+      const targetY = skyArea.clientHeight - (Math.random() * 20 + 10); // Splats near the bottom edge
       let currentY = startY;
       const dropSpeed = 4;
 
