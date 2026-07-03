@@ -8,7 +8,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=1.0.2">
+  <style>
+    /* Critical inline layout fixes to bypass any CSS cache issues */
+    .flex-col {
+      flex-direction: column !important;
+    }
+    .flex-row {
+      display: flex;
+      gap: 16px;
+    }
+  </style>
 </head>
 <body>
   <!-- Ambient background blobs -->
@@ -81,7 +91,7 @@
         
         <!-- Interactive Beach & Seagull Section -->
         <div class="beach-interactive-container">
-          <img src="images/beach.png" alt="Silla de playa y mar" class="beach-img">
+          <img src="images/dark_beach.png" alt="Silla de playa y mar" class="beach-img">
           
           <!-- Seagull Flying Path Container -->
           <div class="seagull-sky" id="sky-area">
